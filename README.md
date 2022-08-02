@@ -59,4 +59,21 @@ $$
 
 Where $x_1=\theta$ and $x_2=\dot{\theta}$. $\frac{dx}{dt}$ is then used in step 5 of the DDP Algorithm as described the table above with the relation $x(k+1)=x(k)+\frac{dx}{dt}(k)dt$. In order to find $\triangledown_xF$ and $\triangledown_uF$, the Hessian of the dynamics matrix above must be found with respect to x and u. 
 
+##### Results 
 
+For a simple case in which the pendulum starts at rest, DDP is applied to attempt the flip the pendulum by 180deg (the classic problem). The results of the algorithm are given in the figure below: 
+
+ <img src="./invertedPendulum/results.png" width="600">
+
+
+#### Cart-Pole 
+This section describes the implementation of our DDP derivation to a cart-pole system. It's dynamics are given with the equations: \\
+\begin{align*}
+\ddot{x} &= \frac{f+m_psin\theta(l\dot{\theta}+gcos\theta)}{m_c+m_psin^2\theta} \\ 
+\ddot{\theta} &= \frac{-fcos\theta-m_pl\dot{\theta}^2cos\thetasin\theta-(m_c+m_p)gsin\theta}{l(m_c+m_psin^2\theta)}
+\end{align*}
+
+\noindent Where $m_c=1.0\,kg,\,m_p=0.01\,kg,\,and\,l=0.25\,m$. These equations are then converted to state space form:\\
+$$
+F(x,u,t)=\frac{dx}{dt}=\left[ \begin{array}{c} \dot{x_1} \\ \dot{x_2} \\ \dot{x_3} \\ \dot{x_4} \end{array}\right] = \left[ \begin{array}{c}  x_2 \\ a \\ x_4 \\ b\end{array}\right]=\left [\begin{array}{c} f(x_1,x_2,x_3,x_4) \\ g(x_1,x_2,x_3,x_4) \\ h(x_1,x_2,x_3,x_4) \\ k(x_1,x_2,x_3,x_4)\end{array}\right ]
+$$
