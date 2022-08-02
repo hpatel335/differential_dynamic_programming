@@ -76,8 +76,23 @@ $$
 \end{align*}
 $$
 
-Where $m_c=1.0\,kg,\,m_p=0.01\,kg,\,and\,l=0.25\,m$. These equations are then converted to state space form:
+Where $m_c=1.0\,kg\, m_p=0.01\,kg,\,and\,l=0.25\,m$. These equations are then converted to state space form:
 
 $$
 F(x,u,t)=\frac{dx}{dt}=\left[\begin{array}{c} \dot{x_1} \\ \dot{x_2} \\ \dot{x_3} \\ \dot{x_4} \end{array}\right] = \left[ \begin{array}{c}  x_2 \\ a \\ x_4 \\ b\end{array}\right]=\left [\begin{array}{c} f(x_1,x_2,x_3,x_4) \\ g(x_1,x_2,x_3,x_4) \\ h(x_1,x_2,x_3,x_4) \\ k(x_1,x_2,x_3,x_4)\end{array}\right ]
 $$
+
+where 
+$$
+\begin{align*}
+a &= \frac{u+0.01sin(x_3)(0.25x_4^2+981cos(x_3)}{1+0.01sin^2(x_3)} \\\\
+b &= \frac{-ucos(x_3)-0.01*0.25*x_4^2cos(x_3)sin(x_3)-(0.01+1)9.81sin(x_3)}{0.25(1+0.01sin^2(x_3))}
+\end{align*} 
+$$
+
+where $x_1=x,\,x_2=\dot{x},\,x_3=\theta,\,x_4=\dot{\theta}$ and the coefficients were found by inputting the values for $m_c$, $m_p$, and $l$, and setting f = u. $\frac{dx}{dt}$ is then used in step 5 of the DDP Algorithm\with the relation $x(k+1)=x(k)+\frac{dx}{dt}(k)dt$. In order to find $\triangledown_xF$ and $\triangledown_uF$, the Hessian of the dynamics matrix above must be found by taking the partial derivatives with respect to x and u. 
+
+##### Results 
+The results for the cart-pole system are provided in the figure below. Here the aim was to have an idle cart-pole rotate the pole by 180deg, and maintain zero final velocities. 
+
+ <img src="./cartPole/results.png" width="600">
