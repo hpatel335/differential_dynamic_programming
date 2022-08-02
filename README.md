@@ -31,7 +31,7 @@ $$
 ## DDP Implimentation
 The steps needed to derive the Differential Dynamic Programming scheme are detailed in this [source](https://ieeexplore.ieee.org/document/5530971).
 
-This section details the implementation of the DDP scheme derived in the previous section. DDP will be applied to an inverted pendulum, and a cart pole system. In general each implementation will utilize the  pseudocode detailed in Table \ref{tab:pseudocode}.
+This section details the implementation of the DDP scheme derived in the previous section. DDP will be applied to an inverted pendulum, and a cart pole system. In general each implementation will utilize the  pseudocode detailed in the table below: 
 
 | Steps | Description | 
 | ----- | ----------- | 
@@ -43,4 +43,21 @@ This section details the implementation of the DDP scheme derived in the previou
 | 6 | Set the new nominal trajectory and control as the calculated optimal trajectory and control| 
 | 7 | Check for convergence, repeat steps 1-7 until converged | 
 
+
+#### Inverted Pendulum 
+This section describes the implementation of our DDP derivation to an inverted pendulum system. It's dynamics are given with the equation: \\
+$$
+I\ddot{\theta}+b\dot{\theta}+mglsin(\Theta)=u
+$$ \\
+
+\noindent Where $I=ml^2,\,g=9.81\,m/s^2$, m is the mass, l is the length, b is damping, and f is the control. This equation is then converted to state space form:\\
+
+$$
+F(x,u,t)=\frac{dx}{dt}=\left[ \begin{array}{c} \dot{x_1} \\ \dot{x_2} \end{array}\right] = \left[ \begin{array}{c} x_2 \\ \frac{u}{ml^2} - \frac{g}{l}sin(x_1)-\frac{b}{ml^2}x_2\end{array}\right]=\left [\begin{array}{c} f(x_1,x_2) \\ g(x_1,x_2)\end{array}\right ]
+$$
+
+\noindent Where $x_1=\theta$ and $x_2=\dot{\theta}$. $\frac{dx}{dt}$ is then used in step 5 of the DDP Algorithm as described in Table \ref{tab:pseudocode} with the relation $x(k+1)=x(k)+\frac{dx}{dt}(k)dt$. In order to find $\triangledown_xF$ and $\triangledown_uF$, the Hessian of the dynamics matrix above must be found in the form:
+$$
+\triangledown_xF=\left [ \begin{array}{c c}\frac{\partial f}{\partial x_1} & \frac{\partial f}{\partial x_2} \\\\ \frac{\partial g}{\partial x_1} & \frac{\partial g}{\partial x_2}\end{array}\right]=\left[\begin{array}{c c}0 & 1 \\ \frac{-g}{l}cos(x_1) & \frac{-b}{ml^2}\end{array}\right], \triangledown_uF =\left [ \begin{array}{c}\frac{\partial f}{\partial u} \\ \frac{\partial g}{\partial u}\end{array}\right] = \left[\begin{array}{c} 0 \\ \frac{1}{ml^2}\end{array}\right]
+$$
 
