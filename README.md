@@ -28,5 +28,23 @@ $$
 Q(\mathbf{x}(t_k), \mathbf{u}(t_k)) =  \left[L(\mathbf{x}(t_k),\mathbf{u}(t_k),t_k) + V(\mathbf{x}(t_{k+1}),t_{k+1})\right]
 $$
 
-## DDP Derivation
+## DDP Implimentation
 The steps needed to derive the Differential Dynamic Programming scheme are detailed in this [source](https://ieeexplore.ieee.org/document/5530971).
+
+This section details the implementation of the DDP scheme derived in the previous section. DDP will be applied to an inverted pendulum, and a cart pole system. In general each implementation will utilize the  pseudocode detailed in Table \ref{tab:pseudocode}.
+
+\begin{table}[]
+    \centering
+    \begin{tabular}{c|c}
+        \textbf{Steps} & \textbf{Description} \\ [1ex]
+        1 & Given the nominal states and controls, determine the linearized dynamics of the system  \\[0.5ex] 
+        2 & Calculate the second order expansion of the state value function \\ [0.5ex] 
+        3 & Back-propagate the value function, its gradient and its hessian \\ [0.5ex] 
+        4 & Update the controls using the optimal control correction \\ [0.5ex]
+        5 & Calculate the new optimal trajectory by applying the new controls to the system dynamics \\ [0.5ex]
+        6 & Set the new nominal trajectory and control as the calculated optimal trajectory and control \\ [0.5ex]
+        7 & Check for convergence, repeat steps 1-7 until converged \\ [0.5ex]
+    \end{tabular}
+    \caption{Pseudocode for DDP Algorithm}
+    \label{tab:pseudocode}
+\end{table}
